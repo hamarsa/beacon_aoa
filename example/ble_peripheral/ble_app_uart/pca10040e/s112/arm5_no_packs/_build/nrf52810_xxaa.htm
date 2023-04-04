@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52810_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52810_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Apr 04 17:11:27 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Apr 04 17:26:40 2023
 <BR><P>
 <H3>Maximum Stack Usage =        568 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -479,6 +479,10 @@ Global Symbols
 
 <P><STRONG><a name="[170]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
+<P><STRONG><a name="[171]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+
+<P><STRONG><a name="[172]"></a>__decompress1</STRONG> (Thumb, 86 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+
 <P><STRONG><a name="[f]"></a>GPIOTE_IRQHandler</STRONG> (Thumb, 528 bytes, Stack size 72 bytes, nrfx_gpiote.o(i.GPIOTE_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = GPIOTE_IRQHandler &rArr; nrf_gpiote_event_clear
 </UL>
@@ -553,11 +557,11 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> arm_startup_nrf52810.o(RESET)
 </UL>
-<P><STRONG><a name="[171]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[173]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
 
-<P><STRONG><a name="[172]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[174]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
 
-<P><STRONG><a name="[173]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[175]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
 <P><STRONG><a name="[2e]"></a>adv_updata_timeout_handle</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(i.adv_updata_timeout_handle))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
@@ -1019,7 +1023,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
-<P><STRONG><a name="[25]"></a>main</STRONG> (Thumb, 148 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[25]"></a>main</STRONG> (Thumb, 162 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = main &rArr; app_sys_event_handle &rArr; app_advertising_data_update &rArr; ble_advertising_advdata_update &rArr; ble_advdata_encode &rArr; uuid_list_encode &rArr; uuid_list_sized_encode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vbat_read_value
@@ -1476,7 +1480,7 @@ Local Symbols
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
-<P><STRONG><a name="[76]"></a>advertising_init</STRONG> (Thumb, 148 bytes, Stack size 208 bytes, main.o(i.advertising_init))
+<P><STRONG><a name="[76]"></a>advertising_init</STRONG> (Thumb, 146 bytes, Stack size 208 bytes, main.o(i.advertising_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 352<LI>Call Chain = advertising_init &rArr; ble_advertising_init &rArr; ble_advdata_encode &rArr; uuid_list_encode &rArr; uuid_list_sized_encode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advertising_init
@@ -1496,7 +1500,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7d]"></a>app_advertising_data_update</STRONG> (Thumb, 188 bytes, Stack size 200 bytes, main.o(i.app_advertising_data_update))
+<P><STRONG><a name="[7d]"></a>app_advertising_data_update</STRONG> (Thumb, 190 bytes, Stack size 200 bytes, main.o(i.app_advertising_data_update))
 <BR><BR>[Stack]<UL><LI>Max Depth = 368<LI>Call Chain = app_advertising_data_update &rArr; ble_advertising_advdata_update &rArr; ble_advdata_encode &rArr; uuid_list_encode &rArr; uuid_list_sized_encode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advertising_start

@@ -155,9 +155,12 @@ _APP_TIMER_DEF(sys_restart_timeout_id);
 static uint16_t   vbat;
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
 
-static uint8_t m_beacon_info[31] =                    /**< Information advertised by the Beacon. */
+static uint8_t seq_count;	
+
+static uint8_t m_beacon_info[27] =                    /**< Information advertised by the Beacon. */
 {  
-    0
+    0x01,0x40,0x8c,0x1f,0x0a,0x2f,0x00,0x2f,0x61,0xac,0xcc,0x27,0x45,
+		0x67,0xf7,0xdb,0x34,0xc4,0x03,0x8e,0x5c,0x0b,0xaa,0x97,0x30,0x56,0xe6
 };
 
 ibeaconinf_t sys_inf;
@@ -611,7 +614,7 @@ static void advertising_init(void)
         
     //tx_power_level = tx_power_table[6];
           
-    manuf_specific_data.company_identifier  = 0x1234;
+    manuf_specific_data.company_identifier  = 0x00c7;
     manuf_specific_data.data.p_data         = m_beacon_info;
     manuf_specific_data.data.size           = APP_BEACON_INFO_LENGTH;
     
@@ -656,19 +659,20 @@ static void app_advertising_data_update( uint16_t adv_type )
     memset(&x_config, 0, sizeof( ble_adv_modes_config_t ) );
     memset(&x_manuf_specific_data, 0, sizeof( ble_advdata_manuf_data_t ) );
        
-    memset(m_beacon_info, 0, sizeof( m_beacon_info ) );
     
     x_config.ble_adv_fast_interval = 160*100;
     adv_data_len = APP_BEACON_INFO_LENGTH;
     
     /* Update beacon_info */
-    m_beacon_info[0] = 1;
+    m_beacon_info[5] = seq_count;
+    seq_count++;
+		
                                               
     sd_ble_gap_adv_stop(m_advertising.adv_handle);
 		
     
     {       
-        x_manuf_specific_data.company_identifier = 0x1234;
+        x_manuf_specific_data.company_identifier = 0x00c7;
         x_manuf_specific_data.data.p_data = m_beacon_info;
         x_manuf_specific_data.data.size   = adv_data_len;
         
@@ -1014,7 +1018,7 @@ int main(void)
     
     app_timer_start(sys_restart_timeout_id, SYS_RESTART_TIMEOUT, NULL);
 		
-		//app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT, NULL);
+		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT, NULL);
     
     for (;;)
     {  
