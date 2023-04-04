@@ -628,6 +628,8 @@ uint32_t ble_advertising_start(ble_advertising_t * const p_advertising,
 
         case BLE_ADV_MODE_FAST:
             ret = set_adv_mode_fast(p_advertising, &p_advertising->adv_params);
+						p_advertising->adv_params.properties.type = BLE_GAP_ADV_TYPE_NONCONNECTABLE_NONSCANNABLE_UNDIRECTED;
+						p_advertising->adv_params.channel_mask[4] = 0xC0;														//37 channel
             break;
 
         case BLE_ADV_MODE_SLOW:

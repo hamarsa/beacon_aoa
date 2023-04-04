@@ -130,7 +130,7 @@
 
 #define CONNECTED_TIMEOUT    APP_TIMER_TICKS(60000) //1min
 #define SYS_RESTART_TIMEOUT  APP_TIMER_TICKS(600000) //10min
-
+#define ADV_UPDATE_TIMEOUT	 APP_TIMER_TICKS(300)			//300ms
 /*!
  * Defines the radio events status
  */
@@ -647,6 +647,7 @@ static void app_advertising_data_update( uint16_t adv_type )
     ble_advdata_t x_srdata;
     ble_adv_modes_config_t x_config;
     ble_advdata_manuf_data_t    x_manuf_specific_data;
+
     
     uint8_t adv_data_len = 0;
     
@@ -664,6 +665,7 @@ static void app_advertising_data_update( uint16_t adv_type )
     m_beacon_info[0] = 1;
                                               
     sd_ble_gap_adv_stop(m_advertising.adv_handle);
+		
     
     {       
         x_manuf_specific_data.company_identifier = 0x1234;
@@ -680,6 +682,7 @@ static void app_advertising_data_update( uint16_t adv_type )
         x_config.ble_adv_fast_enabled  = true;     
         x_config.ble_adv_fast_timeout  = APP_ADV_DURATION;
         
+																							
         ble_advertising_modes_config_set( &m_advertising, &x_config );
         
         err_code = ble_advertising_advdata_update( &m_advertising, &x_advdata, &x_srdata );
@@ -710,32 +713,6 @@ static void idle_state_handle(void)
     {
         nrf_pwr_mgmt_run();
     }
-}
-
-/**@brief Function for starting advertising.
- */
-static void advertising_start_with_adv_params(void)
-{
-		uint32_t err_code;
-		ble_gap_adv_params_t adv_params;
-
-		memcpy(&adv_params, &m_advertising.adv_params, sizeof(adv_params));
-
-#if ADV_TYPE_CON
-    adv_params.properties.type = BLE_GAP_ADV_TYPE_CONNECTABLE_SCANNABLE_UNDIRECTED;
-#else
-		adv_params.properties.type = BLE_GAP_ADV_TYPE_NONCONNECTABLE_NONSCANNABLE_UNDIRECTED;
-#endif
-	
-		adv_params.channel_mask[4] = 0xC0;
-
-		err_code = sd_ble_gap_adv_set_configure(&m_advertising.adv_handle,
-																							&m_advertising.adv_data,
-																							&adv_params);
-		APP_ERROR_CHECK(err_code);
-
-		err_code = sd_ble_gap_adv_start(m_advertising.adv_handle, m_advertising.conn_cfg_tag);
-		APP_ERROR_CHECK(err_code);
 }
 
 
@@ -1029,14 +1006,15 @@ int main(void)
     
     conn_params_init();
 
-    //advertising_start();
-		advertising_start_with_adv_params();
+    advertising_start();
     
     app_timer_create(&adv_updata_id, APP_TIMER_MODE_REPEATED, adv_updata_timeout_handle);
     
     app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
     
     app_timer_start(sys_restart_timeout_id, SYS_RESTART_TIMEOUT, NULL);
+		
+		//app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT, NULL);
     
     for (;;)
     {  
