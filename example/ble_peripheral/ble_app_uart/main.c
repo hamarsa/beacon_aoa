@@ -620,7 +620,7 @@ static void advertising_init(void)
     init.advdata.include_appearance = false;
     init.advdata.flags              = 0;
     
-    init.srdata.name_type              = BLE_ADVDATA_FULL_NAME;
+    //init.srdata.name_type              = BLE_ADVDATA_FULL_NAME;
         
     //adv_interval = 160*100;     
     adv_interval = 160;    
@@ -710,6 +710,32 @@ static void idle_state_handle(void)
     {
         nrf_pwr_mgmt_run();
     }
+}
+
+/**@brief Function for starting advertising.
+ */
+static void advertising_start_with_adv_params(void)
+{
+		uint32_t err_code;
+		ble_gap_adv_params_t adv_params;
+
+		memcpy(&adv_params, &m_advertising.adv_params, sizeof(adv_params));
+
+#if ADV_TYPE_CON
+    adv_params.properties.type = BLE_GAP_ADV_TYPE_CONNECTABLE_SCANNABLE_UNDIRECTED;
+#else
+		adv_params.properties.type = BLE_GAP_ADV_TYPE_NONCONNECTABLE_NONSCANNABLE_UNDIRECTED;
+#endif
+	
+		adv_params.channel_mask[4] = 0xC0;
+
+		err_code = sd_ble_gap_adv_set_configure(&m_advertising.adv_handle,
+																							&m_advertising.adv_data,
+																							&adv_params);
+		APP_ERROR_CHECK(err_code);
+
+		err_code = sd_ble_gap_adv_start(m_advertising.adv_handle, m_advertising.conn_cfg_tag);
+		APP_ERROR_CHECK(err_code);
 }
 
 
@@ -1003,7 +1029,8 @@ int main(void)
     
     conn_params_init();
 
-    advertising_start();
+    //advertising_start();
+		advertising_start_with_adv_params();
     
     app_timer_create(&adv_updata_id, APP_TIMER_MODE_REPEATED, adv_updata_timeout_handle);
     
