@@ -131,6 +131,8 @@
 #define CONNECTED_TIMEOUT    APP_TIMER_TICKS(60000) //1min
 #define SYS_RESTART_TIMEOUT  APP_TIMER_TICKS(600000) //10min
 #define ADV_UPDATE_TIMEOUT	 APP_TIMER_TICKS(300)			//300ms
+
+#define BUTTON_SWITCH 1
 /*!
  * Defines the radio events status
  */
@@ -157,7 +159,7 @@ static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;             
 
 static uint8_t seq_count;	
 static uint16_t vol_16;
-
+static bool adv_on = 1;
 static uint8_t m_beacon_info[27] =                    /**< Information advertised by the Beacon. */
 {  
     0x01,0x40,0x8c,0x1f,0x0a,0x2f,0x00,0x2f,0x61,0xac,0xcc,0x27,0x45,
@@ -481,32 +483,21 @@ void gatt_init(void)
 void bsp_event_handler(bsp_event_t event)
 {
     uint32_t err_code;
+
     switch (event)
     {
-        case BSP_EVENT_SLEEP:
-            break;
-
-        case BSP_EVENT_DISCONNECT:
-            err_code = sd_ble_gap_disconnect(m_conn_handle, BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
-            if (err_code != NRF_ERROR_INVALID_STATE)
-            {
-                APP_ERROR_CHECK(err_code);
-            }
-            break;
-
-        case BSP_EVENT_WHITELIST_OFF:
-            if (m_conn_handle == BLE_CONN_HANDLE_INVALID)
-            {
-                err_code = ble_advertising_restart_without_whitelist(&m_advertising);
-                if (err_code != NRF_ERROR_INVALID_STATE)
-                {
-                    APP_ERROR_CHECK(err_code);
-                }
-            }
-            break;
-
+				case BSP_EVENT_KEY_1:
+							seq_count=0;
+							//adv_on = !adv_on;
+				break;
+				
+				case BSP_EVENT_KEY_2:
+								seq_count=0xd0;
+				break;
+								
         default:
-            break;
+            break;			
+
     }
 }
 
@@ -661,7 +652,7 @@ static void app_advertising_data_update( uint16_t adv_type )
     memset(&x_manuf_specific_data, 0, sizeof( ble_advdata_manuf_data_t ) );
        
     
-    x_config.ble_adv_fast_interval = 160*100;
+    x_config.ble_adv_fast_interval = 160*4;
     adv_data_len = APP_BEACON_INFO_LENGTH;
     
     /* Update beacon_info */
@@ -686,8 +677,7 @@ static void app_advertising_data_update( uint16_t adv_type )
     seq_count++;
                                          
     sd_ble_gap_adv_stop(m_advertising.adv_handle);
-		
-    
+
     {       
         x_manuf_specific_data.company_identifier = 0x00c7;
         x_manuf_specific_data.data.p_data = m_beacon_info;
@@ -706,7 +696,7 @@ static void app_advertising_data_update( uint16_t adv_type )
 																							
         ble_advertising_modes_config_set( &m_advertising, &x_config );
         
-        err_code = ble_advertising_advdata_update( &m_advertising, &x_advdata, &x_srdata );
+        err_code = ble_advertising_advdata_update( &m_advertising, &x_advdata, NULL );
         APP_ERROR_CHECK(err_code); 
 
         err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
@@ -969,8 +959,33 @@ static void app_sys_event_handle( void )
     {
         app_process_events.events.adv_updata_event = 0;
         
-        app_advertising_data_update( 1 );
+				if(1)
+				{
+						app_advertising_data_update( 1 );
+				}
+        else
+				{
+						sd_ble_gap_adv_stop(m_advertising.adv_handle);
+						seq_count = 0;
+				}
     }
+}
+
+
+static void buttons_init(void)
+{
+
+    bsp_event_t startup_event;
+
+//	uint32_t err_code = bsp_init(BSP_INIT_LEDS, bsp_event_handler);
+//    APP_ERROR_CHECK(err_code);
+	
+    uint32_t err_code = bsp_init(BSP_INIT_BUTTONS, bsp_event_handler);
+    APP_ERROR_CHECK(err_code);
+ 
+		err_code = bsp_event_to_button_action_assign(BUTTON_SWITCH, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_KEY_1);   
+		err_code = bsp_event_to_button_action_assign(BUTTON_SWITCH, BSP_BUTTON_ACTION_RELEASE, BSP_EVENT_KEY_2); 
+    APP_ERROR_CHECK(err_code);
 }
 
 #if NRFX_CHECK(NRFX_WDT_ENABLED)
@@ -1032,6 +1047,9 @@ int main(void)
 
     //advertising_start();
     
+		
+		buttons_init();
+		
     app_timer_create(&adv_updata_id, APP_TIMER_MODE_REPEATED, adv_updata_timeout_handle);
     
     app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
@@ -1040,6 +1058,9 @@ int main(void)
 		
 		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT, NULL);
     
+
+				
+				
     for (;;)
     {  
 #if NRFX_CHECK(DEMO)  
