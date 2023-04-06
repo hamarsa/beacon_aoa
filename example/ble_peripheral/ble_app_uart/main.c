@@ -487,13 +487,9 @@ void bsp_event_handler(bsp_event_t event)
     switch (event)
     {
 				case BSP_EVENT_KEY_1:
-							seq_count=0;
-							//adv_on = !adv_on;
+							adv_on = !adv_on;
 				break;
-				
-				case BSP_EVENT_KEY_2:
-								seq_count=0xd0;
-				break;
+			
 								
         default:
             break;			
@@ -959,7 +955,7 @@ static void app_sys_event_handle( void )
     {
         app_process_events.events.adv_updata_event = 0;
         
-				if(1)
+				if(adv_on)
 				{
 						app_advertising_data_update( 1 );
 				}
@@ -984,7 +980,8 @@ static void buttons_init(void)
     APP_ERROR_CHECK(err_code);
  
 		err_code = bsp_event_to_button_action_assign(BUTTON_SWITCH, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_KEY_1);   
-		err_code = bsp_event_to_button_action_assign(BUTTON_SWITCH, BSP_BUTTON_ACTION_RELEASE, BSP_EVENT_KEY_2); 
+
+	
     APP_ERROR_CHECK(err_code);
 }
 

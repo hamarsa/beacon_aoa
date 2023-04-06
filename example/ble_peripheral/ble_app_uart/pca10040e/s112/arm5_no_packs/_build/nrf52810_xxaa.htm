@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52810_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52810_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Apr 06 15:57:58 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Apr 06 16:24:47 2023
 <BR><P>
 <H3>Maximum Stack Usage =        568 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -907,7 +907,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_button_event_handler
 </UL>
 
-<P><STRONG><a name="[2f]"></a>bsp_event_handler</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, main.o(i.bsp_event_handler))
+<P><STRONG><a name="[2f]"></a>bsp_event_handler</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, main.o(i.bsp_event_handler))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.buttons_init)
 </UL>
 <P><STRONG><a name="[df]"></a>bsp_event_to_button_action_assign</STRONG> (Thumb, 66 bytes, Stack size 12 bytes, bsp.o(i.bsp_event_to_button_action_assign))
@@ -1603,7 +1603,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_sys_event_handle
 </UL>
 
-<P><STRONG><a name="[8a]"></a>app_sys_event_handle</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, main.o(i.app_sys_event_handle))
+<P><STRONG><a name="[8a]"></a>app_sys_event_handle</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, main.o(i.app_sys_event_handle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = app_sys_event_handle &rArr; app_advertising_data_update &rArr; ble_advertising_advdata_update &rArr; ble_advdata_encode &rArr; uuid_list_encode &rArr; uuid_list_sized_encode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_advertising_data_update
@@ -1638,7 +1638,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[de]"></a>buttons_init</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, main.o(i.buttons_init))
+<P><STRONG><a name="[de]"></a>buttons_init</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, main.o(i.buttons_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 140<LI>Call Chain = buttons_init &rArr; bsp_init &rArr; app_button_init &rArr; nrfx_gpiote_in_init &rArr; channel_port_alloc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_init
