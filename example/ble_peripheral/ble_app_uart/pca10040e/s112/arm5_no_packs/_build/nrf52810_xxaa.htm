@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52810_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52810_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Apr 07 11:17:45 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Apr 07 11:30:48 2023
 <BR><P>
 <H3>Maximum Stack Usage =        568 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -75,7 +75,7 @@ Function Pointers
  <LI><a href="#[37]">ble_evt_handler</a> from ble_conn_state.o(i.ble_evt_handler) referenced from ble_conn_state.o(sdh_ble_observers0)
  <LI><a href="#[3a]">ble_evt_handler</a> from ble_conn_params.o(i.ble_evt_handler) referenced from ble_conn_params.o(sdh_ble_observers1)
  <LI><a href="#[3d]">ble_evt_handler</a> from main.o(i.ble_evt_handler) referenced from main.o(sdh_ble_observers3)
- <LI><a href="#[35]">bsp_button_event_handler</a> from bsp.o(i.bsp_button_event_handler) referenced 4 times from bsp.o(.constdata)
+ <LI><a href="#[35]">bsp_button_event_handler</a> from bsp.o(i.bsp_button_event_handler) referenced from bsp.o(.constdata)
  <LI><a href="#[2f]">bsp_event_handler</a> from main.o(i.bsp_event_handler) referenced from main.o(i.buttons_init)
  <LI><a href="#[2c]">button_timer_handler</a> from bsp.o(i.button_timer_handler) referenced from bsp.o(i.bsp_init)
  <LI><a href="#[32]">clock_irq_handler</a> from nrf_drv_clock.o(i.clock_irq_handler) referenced from nrf_drv_clock.o(i.nrf_drv_clock_init)
@@ -932,7 +932,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.buttons_init)
 </UL>
-<P><STRONG><a name="[e0]"></a>bsp_event_to_button_action_assign</STRONG> (Thumb, 66 bytes, Stack size 12 bytes, bsp.o(i.bsp_event_to_button_action_assign))
+<P><STRONG><a name="[e0]"></a>bsp_event_to_button_action_assign</STRONG> (Thumb, 64 bytes, Stack size 12 bytes, bsp.o(i.bsp_event_to_button_action_assign))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = bsp_event_to_button_action_assign
 </UL>
 <BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buttons_init

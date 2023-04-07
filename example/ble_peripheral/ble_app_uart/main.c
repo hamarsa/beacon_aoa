@@ -139,7 +139,7 @@
 																	1000000 * (APP_TIMER_CONFIG_RTC_FREQUENCY + 1)))
 																	
 																	
-#define BUTTON_SWITCH 1
+#define BUTTON_SWITCH 0
 /*!
  * Defines the radio events status
  */
