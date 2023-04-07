@@ -685,10 +685,10 @@ static void app_advertising_data_update( uint16_t adv_type )
     seq_count++;
 		
 		if(seq_count == 0)
-		{
+		{		
 					sec76_count++;
-					if(sec76_count == 16)
-						NVIC_SystemReset();
+					if(sec76_count >= 16)
+						app_timer_start(sys_restart_timeout_id, APP_TIMER_TICKS(20), NULL);
 		}
                                       
     sd_ble_gap_adv_stop(m_advertising.adv_handle);
@@ -1068,11 +1068,11 @@ int main(void)
 		
     app_timer_create(&adv_updata_id, APP_TIMER_MODE_SINGLE_SHOT, adv_updata_timeout_handle);
     
-    //app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
+    app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
     
     //app_timer_start(sys_restart_timeout_id, SYS_RESTART_TIMEOUT, NULL);
 		
-		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT - APP_TIMER_TICKS(4), NULL);
+		app_timer_start(adv_updata_id, APP_TIMER_TICKS(30), NULL);
 
 		buttons_init();
 			
