@@ -396,16 +396,18 @@ static uint32_t bsp_led_indication(bsp_indication_t indicate)
             m_stable_state = indicate;
             break;
 
-        case BSP_INDICATE_USER_STATE_0:
+        case BSP_INDICATE_USER_STATE_0:						
             leds_off();
             bsp_board_led_on(BSP_LED_INDICATE_USER_LED1);
-            m_stable_state = indicate;
+						app_timer_start(m_bsp_leds_tmr, APP_TIMER_TICKS(500), NULL);		//adv_on
+            m_stable_state = BSP_INDICATE_IDLE;
             break;
 
         case BSP_INDICATE_USER_STATE_1:
             leds_off();
             bsp_board_led_on(BSP_LED_INDICATE_USER_LED2);
-            m_stable_state = indicate;
+						app_timer_start(m_bsp_leds_tmr, APP_TIMER_TICKS(500), NULL);		//adv_off
+            m_stable_state = BSP_INDICATE_IDLE;
             break;
 
         case BSP_INDICATE_USER_STATE_2:

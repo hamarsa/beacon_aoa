@@ -486,8 +486,13 @@ void bsp_event_handler(bsp_event_t event)
 
     switch (event)
     {
-				case BSP_EVENT_KEY_1:
+				case BSP_EVENT_KEY_1:							
+							
 							adv_on = !adv_on;
+							if(adv_on)
+								bsp_indication_set(BSP_INDICATE_USER_STATE_0);
+							else
+								bsp_indication_set(BSP_INDICATE_USER_STATE_1);
 				break;
 			
 								
@@ -973,13 +978,10 @@ static void buttons_init(void)
 
     bsp_event_t startup_event;
 
-//	uint32_t err_code = bsp_init(BSP_INIT_LEDS, bsp_event_handler);
-//    APP_ERROR_CHECK(err_code);
-	
-    uint32_t err_code = bsp_init(BSP_INIT_BUTTONS, bsp_event_handler);
+    uint32_t err_code = bsp_init(BSP_INIT_BUTTONS|BSP_INIT_LEDS, bsp_event_handler);
     APP_ERROR_CHECK(err_code);
  
-		err_code = bsp_event_to_button_action_assign(BUTTON_SWITCH, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_KEY_1);   
+		err_code = bsp_event_to_button_action_assign(BUTTON_SWITCH, BSP_BUTTON_ACTION_LONG_PUSH, BSP_EVENT_KEY_1);   
 
 	
     APP_ERROR_CHECK(err_code);
@@ -1045,7 +1047,7 @@ int main(void)
     //advertising_start();
     
 		
-		buttons_init();
+		
 		
     app_timer_create(&adv_updata_id, APP_TIMER_MODE_REPEATED, adv_updata_timeout_handle);
     
@@ -1055,7 +1057,8 @@ int main(void)
 		
 		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT, NULL);
     
-
+		buttons_init();
+		
 				
 				
     for (;;)

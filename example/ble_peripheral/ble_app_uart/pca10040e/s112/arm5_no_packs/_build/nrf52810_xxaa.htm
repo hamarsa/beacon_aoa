@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52810_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52810_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Apr 06 16:24:47 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Apr 07 09:20:15 2023
 <BR><P>
 <H3>Maximum Stack Usage =        568 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -880,7 +880,7 @@ Global Symbols
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_board_leds_on
 </UL>
 
-<P><STRONG><a name="[dd]"></a>bsp_board_led_state_get</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, boards.o(i.bsp_board_led_state_get))
+<P><STRONG><a name="[dd]"></a>bsp_board_led_state_get</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, boards.o(i.bsp_board_led_state_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = bsp_board_led_state_get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
@@ -907,7 +907,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_button_event_handler
 </UL>
 
-<P><STRONG><a name="[2f]"></a>bsp_event_handler</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, main.o(i.bsp_event_handler))
+<P><STRONG><a name="[2f]"></a>bsp_event_handler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, main.o(i.bsp_event_handler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = bsp_event_handler &rArr; bsp_indication_set &rArr; bsp_led_indication &rArr; app_timer_start &rArr; timer_req_schedule &rArr; nrf_atfifo_item_put
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_indication_set
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.buttons_init)
 </UL>
 <P><STRONG><a name="[df]"></a>bsp_event_to_button_action_assign</STRONG> (Thumb, 66 bytes, Stack size 12 bytes, bsp.o(i.bsp_event_to_button_action_assign))
@@ -921,7 +925,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_event_handler
+<LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
 <P><STRONG><a name="[db]"></a>bsp_init</STRONG> (Thumb, 104 bytes, Stack size 16 bytes, bsp.o(i.bsp_init))
@@ -1779,7 +1784,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsp.o(.constdata)
 </UL>
-<P><STRONG><a name="[da]"></a>bsp_led_indication</STRONG> (Thumb, 882 bytes, Stack size 32 bytes, bsp.o(i.bsp_led_indication))
+<P><STRONG><a name="[da]"></a>bsp_led_indication</STRONG> (Thumb, 916 bytes, Stack size 32 bytes, bsp.o(i.bsp_led_indication))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = bsp_led_indication &rArr; app_timer_start &rArr; timer_req_schedule &rArr; nrf_atfifo_item_put
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_timer_start

@@ -50,13 +50,13 @@ extern "C" {
 #define LEDS_NUMBER    4
 
 #define LED_START      17
-#define LED_1          17
-#define LED_2          18
+#define LED_1          28
+#define LED_2          12
 #define LED_3          19
 #define LED_4          20
 #define LED_STOP       20
 
-#define LEDS_ACTIVE_STATE 0
+#define LEDS_ACTIVE_STATE 1
 
 #define LEDS_INV_MASK  LEDS_MASK
 
