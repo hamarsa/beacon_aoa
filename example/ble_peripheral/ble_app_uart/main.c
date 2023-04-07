@@ -76,6 +76,8 @@
 #include "ibeaconinf.h"
 #include "crc.h"
 
+#include "stdlib.h"
+
 #if defined (UART_PRESENT)
 #include "nrf_uart.h"
 #endif
@@ -132,6 +134,11 @@
 #define SYS_RESTART_TIMEOUT  APP_TIMER_TICKS(600000) //10min
 #define ADV_UPDATE_TIMEOUT	 APP_TIMER_TICKS(300)			//300ms
 
+#define US2TICKS(US)							((uint32_t)ROUNDED_DIV(                        \
+																	(US) * (uint64_t)APP_TIMER_CLOCK_FREQ,         \
+																	1000000 * (APP_TIMER_CONFIG_RTC_FREQUENCY + 1)))
+																	
+																	
 #define BUTTON_SWITCH 1
 /*!
  * Defines the radio events status
@@ -483,7 +490,6 @@ void gatt_init(void)
 void bsp_event_handler(bsp_event_t event)
 {
     uint32_t err_code;
-
     switch (event)
     {
 				case BSP_EVENT_KEY_1:							
@@ -943,6 +949,7 @@ COMPLETE_PACKET:
 
 void adv_updata_timeout_handle(void * p_context)
 {
+		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT  + US2TICKS(rand()%10000), NULL);
     app_process_events.events.adv_updata_event = 1;
 }
 
@@ -996,6 +1003,7 @@ nrfx_wdt_channel_id wdt_channel_id;
  */
 int main(void)
 {   
+		uint8_t seed;
     nrf_power_dcdcen_set(true);
     
     timers_init();
@@ -1048,15 +1056,16 @@ int main(void)
     
 		
 		
+		srand(seed);
 		
-    app_timer_create(&adv_updata_id, APP_TIMER_MODE_REPEATED, adv_updata_timeout_handle);
+    app_timer_create(&adv_updata_id, APP_TIMER_MODE_SINGLE_SHOT, adv_updata_timeout_handle);
     
     app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
     
     app_timer_start(sys_restart_timeout_id, SYS_RESTART_TIMEOUT, NULL);
 		
-		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT, NULL);
-    
+		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT + US2TICKS(rand()%10000), NULL);
+
 		buttons_init();
 		
 				

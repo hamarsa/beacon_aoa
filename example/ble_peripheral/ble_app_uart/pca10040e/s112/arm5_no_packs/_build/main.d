@@ -95,6 +95,7 @@
 .\_build\main.o: ..\..\..\nvram.h
 .\_build\main.o: ..\..\..\..\..\..\common\ibeaconinf.h
 .\_build\main.o: ..\..\..\..\..\..\common\crc.h
+.\_build\main.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\_build\main.o: ..\..\..\..\..\..\modules\nrfx\hal\nrf_uart.h
 .\_build\main.o: ..\..\..\..\..\..\modules\nrfx\hal\nrf_uarte.h
 .\_build\main.o: ..\..\..\..\..\..\components\libraries\log\nrf_log.h
