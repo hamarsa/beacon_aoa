@@ -664,7 +664,8 @@ static void app_advertising_data_update( uint16_t adv_type )
     
     /* Update beacon_info */
 	
-	
+		static uint8_t sec76_count;
+		
 		if(seq_count%4 == 0)
 		{
 				m_beacon_info[1] = 0x20;
@@ -682,7 +683,14 @@ static void app_advertising_data_update( uint16_t adv_type )
 		
     m_beacon_info[5] = seq_count;
     seq_count++;
-                                         
+		
+		if(seq_count == 0)
+		{
+					sec76_count++;
+					if(sec76_count == 16)
+						NVIC_SystemReset();
+		}
+                                      
     sd_ble_gap_adv_stop(m_advertising.adv_handle);
 
     {       
@@ -1060,16 +1068,14 @@ int main(void)
 		
     app_timer_create(&adv_updata_id, APP_TIMER_MODE_SINGLE_SHOT, adv_updata_timeout_handle);
     
-    app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
+    //app_timer_create(&sys_restart_timeout_id, APP_TIMER_MODE_SINGLE_SHOT, sys_restart_timeout_handle);
     
-    app_timer_start(sys_restart_timeout_id, SYS_RESTART_TIMEOUT, NULL);
+    //app_timer_start(sys_restart_timeout_id, SYS_RESTART_TIMEOUT, NULL);
 		
-		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT + US2TICKS(rand()%10000), NULL);
+		app_timer_start(adv_updata_id, ADV_UPDATE_TIMEOUT - APP_TIMER_TICKS(4), NULL);
 
 		buttons_init();
-		
-				
-				
+			
     for (;;)
     {  
 #if NRFX_CHECK(DEMO)  
